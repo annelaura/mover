@@ -26,11 +26,46 @@ def stop_motors():
 # Streamlit app
 st.title("Motor Control")
 
-# Create toggles for motor directions
-toggle_forward = st.toggle("Forward")
-toggle_backward = st.toggle("Backward")
-toggle_left = st.toggle("Left")
-toggle_right = st.toggle("Right")
+# Custom CSS for directional control
+st.markdown("""
+    <style>
+    .control-grid {
+        display: grid;
+        grid-template-areas:
+            ". forward ."
+            "left stop right"
+            ". backward .";
+        gap: 10px;
+        justify-items: center;
+        align-items: center;
+    }
+    .control-grid > div {
+        padding: 20px;
+        background: #f0f0f0;
+        border-radius: 5px;
+        text-align: center;
+        font-size: 18px;
+        width: 100px;
+    }
+    </style>
+""", unsafe_allow_html=True)
+
+# Create a layout for motor controls
+st.markdown("""
+    <div class="control-grid">
+        <div class="control-item" style="grid-area: forward;">⬆️</div>
+        <div class="control-item" style="grid-area: left;">⬅️</div>
+        <div class="control-item" style="grid-area: stop;">⏹️</div>
+        <div class="control-item" style="grid-area: right;">➡️</div>
+        <div class="control-item" style="grid-area: backward;">⬇️</div>
+    </div>
+""", unsafe_allow_html=True)
+
+# Create toggles for motor directions with styled arrows
+toggle_forward = st.toggle("Forward", key="forward")
+toggle_backward = st.toggle("Backward", key="backward")
+toggle_left = st.toggle("Left", key="left")
+toggle_right = st.toggle("Right", key="right")
 
 # Create toggles for individual pins
 toggle_pin_17 = st.toggle("Pin 17")
