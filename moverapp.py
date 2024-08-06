@@ -26,33 +26,60 @@ def stop_motors():
 # Streamlit app
 st.title("Motor Control")
 
-if st.button('Forward'):
+# Create toggles for motor directions
+toggle_forward = st.toggle("Forward")
+toggle_backward = st.toggle("Backward")
+toggle_left = st.toggle("Left")
+toggle_right = st.toggle("Right")
+
+# Create toggles for individual pins
+toggle_pin_17 = st.toggle("Pin 17")
+toggle_pin_18 = st.toggle("Pin 18")
+toggle_pin_22 = st.toggle("Pin 22")
+toggle_pin_27 = st.toggle("Pin 27")
+
+# GPIO control logic based on motor direction toggles
+if toggle_forward:
     stop_motors()
     for pin in motor_pins['forward']:
         GPIO.output(pin, GPIO.HIGH)
     st.write('Motors moving forward')
+else:
+    for pin in motor_pins['forward']:
+        GPIO.output(pin, GPIO.LOW)
 
-if st.button('Backward'):
+if toggle_backward:
     stop_motors()
     for pin in motor_pins['backward']:
         GPIO.output(pin, GPIO.HIGH)
     st.write('Motors moving backward')
+else:
+    for pin in motor_pins['backward']:
+        GPIO.output(pin, GPIO.LOW)
 
-if st.button('Left'):
+if toggle_left:
     stop_motors()
     for pin in motor_pins['left']:
         GPIO.output(pin, GPIO.HIGH)
     st.write('Motors turning left')
+else:
+    for pin in motor_pins['left']:
+        GPIO.output(pin, GPIO.LOW)
 
-if st.button('Right'):
+if toggle_right:
     stop_motors()
     for pin in motor_pins['right']:
         GPIO.output(pin, GPIO.HIGH)
     st.write('Motors turning right')
+else:
+    for pin in motor_pins['right']:
+        GPIO.output(pin, GPIO.LOW)
 
-if st.button('Stop'):
-    stop_motors()
-    st.write('Motors stopped')
+# GPIO control logic based on individual pin toggles
+GPIO.output(17, GPIO.HIGH if toggle_pin_17 else GPIO.LOW)
+GPIO.output(18, GPIO.HIGH if toggle_pin_18 else GPIO.LOW)
+GPIO.output(22, GPIO.HIGH if toggle_pin_22 else GPIO.LOW)
+GPIO.output(27, GPIO.HIGH if toggle_pin_27 else GPIO.LOW)
 
 # Cleanup on exit
 st.write("Use Ctrl+C in the terminal to stop the app")
